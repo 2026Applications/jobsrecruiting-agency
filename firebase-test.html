@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Firebase Test</title>
+</head>
+
+<body>
+
+<h2>Firebase Connection Test</h2>
+
+<button id="testBtn">Test Firebase</button>
+
+<p id="result">Press the button.</p>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyDX9sWIN6ikuOPNC-nfukAc-LivOm8mQbk",
+authDomain:"retail-jobs-south-africa.firebaseapp.com",
+projectId:"retail-jobs-south-africa",
+storageBucket:"retail-jobs-south-africa.firebasestorage.app",
+messagingSenderId:"106568125704",
+appId:"1:106568125704:web:de7f94fb8840f5e5ce70bd"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.getElementById("testBtn").onclick = async function(){
+
+const result = document.getElementById("result");
+
+result.innerText = "Connecting to Firebase...";
+
+try{
+
+const snapshot = await getDocs(
+collection(db,"applications")
+);
+
+result.innerText =
+"SUCCESS! Firebase connected. Applications found: "
++ snapshot.size;
+
+}catch(error){
+
+result.innerText =
+"FIREBASE ERROR: " +
+(error.code || "") +
+" | " +
+(error.message || error);
+
+}
+
+};
+
+</script>
+
+</body>
+</html>
